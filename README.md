@@ -19,5 +19,7 @@ Secondary Container (History.js)
    - First - to edit the card
    - Second- to delete the card (not from database or soft delete)
 - When you click on edit button all fields changes to input field and data editted is storred in a state variable.
-
+- when we click on the edit button at last of the card it contains two buttons-
+  - Save button which will send the editted data to database.
+  - Cancel button which will exit the edit mode.
 
