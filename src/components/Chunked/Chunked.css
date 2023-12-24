@@ -12,13 +12,29 @@
 
 .upload-button-div{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    width:100%;
     margin-top: 0.5rem;
     padding: 0.2rem 0.2rem 0 0.2rem;
     
 }
 .upload-button{
     padding: 0.5rem;
+    width:50%;
+    background-color: #1475cf;
+    text-align: center;
+    margin-right: 1rem;
+    font-weight: bold;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    font-size:medium;
+    cursor: pointer;
+}
+
+.history-button{
+    padding: 0.5rem;
+    width:50%;
     background-color: #1475cf;
     text-align: center;
     font-weight: bold;

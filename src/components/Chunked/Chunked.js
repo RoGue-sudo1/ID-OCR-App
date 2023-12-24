@@ -2,12 +2,15 @@ import { useState } from "react";
 import axios from "axios";
 import "./Chunked.css";
 import { MdCloudUpload } from "react-icons/md";
+import { useNavigate } from "react-router";
 
 // Set your Cloudinary cloud name and unsigned upload preset here:
 const CLOUD_NAME = "dluvenijp";
 const UPLOAD_NAME = "ocr_image";
 
 const Chunked = () => {
+
+  const navigate = useNavigate()
   // State variables to manage file upload status and Cloudinary response
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -18,6 +21,11 @@ const Chunked = () => {
   const handleFileChange = (event) => {
     setUploadedFile(event.target.files[0]);
   };
+  
+  //navigating to history page by click on history button
+  const handleHistoryButton = ()=>{
+         navigate("/history")
+  }
 
   // Main function to upload file in chunks
   const uploadFile = async () => {
@@ -132,6 +140,9 @@ const Chunked = () => {
         <div className="upload-button-div">
           <button className="upload-button" onClick={uploadFile} disabled={isUploading}>
             {isUploading ? "Uploading..." : "Upload"}
+          </button>
+          <button className="history-button" onClick={handleHistoryButton} >
+            History
           </button>
         </div>
       </div>
