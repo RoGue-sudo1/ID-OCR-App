@@ -88,6 +88,7 @@ const Chunked = () => {
           const data = await axios.post("http://localhost:5000", {
             url: fetchResponse.url,
           });
+          console.log(data.data.message)
         }
       } catch (error) {
         console.error("Error uploading chunk:", error);
