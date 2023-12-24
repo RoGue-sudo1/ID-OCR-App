@@ -10,6 +10,7 @@
     border-radius: 5px;
 }
 
+
 .upload-button-div{
     display: flex;
     flex-direction: row;
@@ -43,6 +44,10 @@
     border-radius: 5px;
     font-size:medium;
     cursor: pointer;
+}
+
+.history-button:hover,.upload-button:hover{
+    background-color: #144ccf;
 }
 
 

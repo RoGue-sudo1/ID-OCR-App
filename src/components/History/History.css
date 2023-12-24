@@ -36,7 +36,7 @@
   
   .delete-button,
   .edit-button {
-    background-color: #ff5252;
+    background-color: #1475cf;
     color: #fff;
     padding: 5px 10px;
     border: none;
@@ -48,7 +48,7 @@
   
   .delete-button:hover,
   .edit-button:hover {
-    background-color: #b30000;
+    background-color: #144ccf;
   }
   
   .info-item {
@@ -74,6 +74,59 @@
   .info-item {
     color: #333;
   }
+  
+  .edit-action-buttons{
+    display: flex;
+    width:100%;
+    margin-top: 10px;
+  }
+
+  .save-button{
+    width:50%;
+    margin-right: 5px;
+    background-color: #1475cf;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 14px;
+  }
+  
+  .cancel-button{
+    width:50%;
+    background-color: #1475cf;
+    color: #fff;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 14px;
+  }
+
+  .save-button:hover,.cancel-button:hover{
+    background-color: #1440cf;
+  }
+
+  .back-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top:1rem;
+    padding-left: 2rem;
+    font-size: 1.5rem;
+    cursor:pointer;
+
+  }
+
   
   /* Customize as needed */
   

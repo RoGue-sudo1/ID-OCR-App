@@ -18,3 +18,6 @@ Secondary Container (History.js)
  - Now in this we have given to options-
    - First - to edit the card
    - Second- to delete the card (not from database or soft delete)
+- When you click on edit button all fields changes to input field and data editted is storred in a state variable.
+
+

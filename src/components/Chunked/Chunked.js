@@ -147,14 +147,6 @@ const Chunked = () => {
         </div>
       </div>
 
-      {/* {uploadComplete && cloudResponse && (
-        <div>
-          <span className="left">
-            <p>Upload response:</p>
-            <pre>{JSON.stringify(cloudResponse, null, 2)}</pre>
-          </span>
-        </div>
-      )} */}
     </>
   );
 };
