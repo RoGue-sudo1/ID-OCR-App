@@ -109,6 +109,7 @@ const Chunked = () => {
       } catch (error) {
         console.error("Error uploading chunk:", error.message);
         setIsUploading(false);
+        setLoading(false)
       }
     };
 
