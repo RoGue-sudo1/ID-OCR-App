@@ -3,29 +3,38 @@ import axios from "axios";
 import "./Chunked.css";
 import { MdCloudUpload } from "react-icons/md";
 import { useNavigate } from "react-router";
-
-// Set your Cloudinary cloud name and unsigned upload preset here:
-const CLOUD_NAME = "dluvenijp";
-const UPLOAD_NAME = "ocr_image";
+import GridLoader from "react-spinners/GridLoader";
 
 const Chunked = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
   // State variables to manage file upload status and Cloudinary response
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState();
+  const [loading, setLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [cloudResponse, setCloudResponse] = useState(null);
 
   // Event handler for file input change
   const handleFileChange = (event) => {
-    setUploadedFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    setUploadedFile(selectedFile);
+
+    if (selectedFile) {
+      // Read the file and set data URL for image preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
   };
-  
-  //navigating to history page by click on history button
-  const handleHistoryButton = ()=>{
-         navigate("/history")
-  }
+
+  // Navigating to history page by clicking on history button
+  const handleHistoryButton = () => {
+    navigate("/history");
+  };
 
   // Main function to upload file in chunks
   const uploadFile = async () => {
@@ -47,8 +56,8 @@ const Chunked = () => {
       // Prepare formData with the file chunk
       const formData = new FormData();
       formData.append("file", uploadedFile.slice(start, end));
-      formData.append("cloud_name", CLOUD_NAME);
-      formData.append("upload_preset", UPLOAD_NAME);
+      formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
+      formData.append("upload_preset", process.env.REACT_APP_UPLOAD_NAME);
       const contentRange = `bytes ${start}-${end - 1}/${uploadedFile.size}`;
 
       console.log(
@@ -60,7 +69,7 @@ const Chunked = () => {
       try {
         // Make a chunk upload request to Cloudinary
         const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
+          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/auto/upload`,
           {
             method: "POST",
             body: formData,
@@ -93,10 +102,12 @@ const Chunked = () => {
           console.info("File upload complete.");
 
           // Send Cloudinary response to the local server using Axios
-          const data = await axios.post("http://localhost:5000", {
+          setLoading(true);
+          const data = await axios.post(process.env.REACT_APP_BACKEND_SERVER, {
             url: fetchResponse.url,
           });
-          console.log(data.data.message)
+          setLoading(false);
+          console.log(data.data.message);
         }
       } catch (error) {
         console.error("Error uploading chunk:", error);
@@ -116,11 +127,33 @@ const Chunked = () => {
   };
 
   // React component rendering
-  return (
+  return loading ? (
+    <div className="loader">
+      <GridLoader
+        color={"#144ccf"}
+        loading={true}
+        size={25}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      <span
+        style={{
+          marginTop: "5px",
+          fontSize: "25px",
+          fontWeight: "bold",
+          color: "#144ccf",
+        }}
+      >
+        Extraction in process... Please wait
+      </span>
+    </div>
+  ) : (
     <>
-      {/* <input type="file" onChange={handleFileChange} /> */}
-      <div >
-        <div className="form" onClick={() => document.querySelector(".input-field").click()}>
+      <div>
+        <div
+          className="form"
+          onClick={() => document.querySelector(".input-field").click()}
+        >
           <input
             type="file"
             accept="image/*"
@@ -129,24 +162,27 @@ const Chunked = () => {
             onChange={handleFileChange}
           />
           {uploadedFile ? (
-          <img src={uploadedFile} width={150} height={150} />
-        ) : (
-          <>
-            <MdCloudUpload color="#1475cf" size={60} />
-            <p>Browse files to upload</p>
-          </>
-        )}
+            <img src={previewUrl} width={150} height={150} alt={uploadedFile.name} />
+          ) : (
+            <>
+              <MdCloudUpload color="#1475cf" size={60} />
+              <p>Browse files to upload</p>
+            </>
+          )}
         </div>
         <div className="upload-button-div">
-          <button className="upload-button" onClick={uploadFile} disabled={isUploading}>
+          <button
+            className="upload-button"
+            onClick={uploadFile}
+            disabled={isUploading}
+          >
             {isUploading ? "Uploading..." : "Upload"}
           </button>
-          <button className="history-button" onClick={handleHistoryButton} >
+          <button className="history-button" onClick={handleHistoryButton}>
             History
           </button>
         </div>
       </div>
-
     </>
   );
 };

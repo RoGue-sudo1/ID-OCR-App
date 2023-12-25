@@ -1,7 +1,7 @@
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Chunked from "./components/Chunked/Chunked";
-import History from "./components/History/History";
+import History from "./components/History/History.js";
 import './App.css';
 
 
