@@ -1,3 +1,14 @@
+.chunked-container{
+    display:flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+}
+.chunked-container::-webkit-scrollbar {
+    display: none;
+  }
+
 .form{
     display: flex;
     flex-direction: column;
@@ -66,5 +77,8 @@
 }
 
 .extraction-status{
+    margin-top: 2rem;
+    font-weight: bold;
+    font-size: 1rem;
     
 }

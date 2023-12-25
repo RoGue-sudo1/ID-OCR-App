@@ -15,8 +15,8 @@ const Chunked = () => {
     [loading, setLoading] = useState(false),
     [isUploading, setIsUploading] = useState(false),
     [uploadComplete, setUploadComplete] = useState(false),
-    [cloudResponse, setCloudResponse] = useState(null),
-    [extractionStatus, setExtractionStatus] = useState("");
+    [extractionStatus, setExtractionStatus] = useState(""),
+    [userData, setUserData] = useState({});
 
   // Event handler for file input change
   const handleFileChange = (event) => {
@@ -103,6 +103,7 @@ const Chunked = () => {
           const data = await axios.post(process.env.REACT_APP_BACKEND_SERVER, {
             url: cloudinaryUrl,
           });
+          setUserData(data.data);
           setLoading(false);
         }
       } catch (error) {
@@ -126,7 +127,7 @@ const Chunked = () => {
   useEffect(() => {
     if (uploadComplete) {
       // Set a message indicating that data is extracted
-      setExtractionStatus(`Data is extracted!. Please check history`);
+      setExtractionStatus(`Data is extracted! Please check history`);
     }
   }, [uploadComplete]);
 
@@ -152,8 +153,8 @@ const Chunked = () => {
       </span>
     </div>
   ) : (
-    <>
-      <div>
+    <div className="chunked-container">
+      <div >
         <div className="chunked-header">
           <Header />
         </div>
@@ -196,10 +197,14 @@ const Chunked = () => {
           </button>
         </div>
         {extractionStatus && (
-          <div className="extraction-status">{extractionStatus}</div>
+          <div className="extraction-status">
+            <p>User Data:</p>
+            <pre>{JSON.stringify(userData.user, null, 2)}</pre>
+            <p>Message: {userData.message}. Check out history for more</p>
+          </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
