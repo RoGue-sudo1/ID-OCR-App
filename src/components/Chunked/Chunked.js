@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Chunked.css";
 import { MdCloudUpload } from "react-icons/md";
 import { useNavigate } from "react-router";
 import GridLoader from "react-spinners/GridLoader";
+import Header from "../Header/Header";
 
 const Chunked = () => {
   const navigate = useNavigate();
 
-  // State variables to manage file upload status and Cloudinary response
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState();
-  const [loading, setLoading] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadComplete, setUploadComplete] = useState(false);
-  const [cloudResponse, setCloudResponse] = useState(null);
+  // State variables
+  const [uploadedFile, setUploadedFile] = useState(null),
+    [previewUrl, setPreviewUrl] = useState(),
+    [loading, setLoading] = useState(false),
+    [isUploading, setIsUploading] = useState(false),
+    [uploadComplete, setUploadComplete] = useState(false),
+    [cloudResponse, setCloudResponse] = useState(null),
+    [extractionStatus, setExtractionStatus] = useState("");
 
   // Event handler for file input change
   const handleFileChange = (event) => {
@@ -43,7 +45,6 @@ const Chunked = () => {
       return;
     }
 
-    // Generate a unique upload ID
     const uniqueUploadId = generateUniqueUploadId();
     const chunkSize = 2 * 1024 * 1024; // 2 MB chunks
     const totalChunks = Math.ceil(uploadedFile.size / chunkSize);
@@ -53,7 +54,6 @@ const Chunked = () => {
 
     // Recursive function to upload each chunk
     const uploadChunk = async (start, end) => {
-      // Prepare formData with the file chunk
       const formData = new FormData();
       formData.append("file", uploadedFile.slice(start, end));
       formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
@@ -68,11 +68,10 @@ const Chunked = () => {
 
       try {
         // Make a chunk upload request to Cloudinary
-        const response = await fetch(
+        const response = await axios.post(
           `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/auto/upload`,
+          formData,
           {
-            method: "POST",
-            body: formData,
             headers: {
               "X-Unique-Upload-Id": uniqueUploadId,
               "Content-Range": contentRange,
@@ -80,8 +79,8 @@ const Chunked = () => {
           }
         );
 
-        if (!response.ok) {
-          throw new Error("Chunk upload failed.");
+        if (!response) {
+          throw new Error("Chunk upload failed: Empty response.");
         }
 
         // Increment the chunk counter
@@ -97,20 +96,17 @@ const Chunked = () => {
           setUploadComplete(true);
           setIsUploading(false);
 
-          const fetchResponse = await response.json();
-          setCloudResponse(fetchResponse);
-          console.info("File upload complete.");
+          const cloudinaryUrl = response.data.url;
 
           // Send Cloudinary response to the local server using Axios
           setLoading(true);
           const data = await axios.post(process.env.REACT_APP_BACKEND_SERVER, {
-            url: fetchResponse.url,
+            url: cloudinaryUrl,
           });
           setLoading(false);
-          console.log(data.data.message);
         }
       } catch (error) {
-        console.error("Error uploading chunk:", error);
+        console.error("Error uploading chunk:", error.message);
         setIsUploading(false);
       }
     };
@@ -125,6 +121,14 @@ const Chunked = () => {
   const generateUniqueUploadId = () => {
     return `uqid-${Date.now()}`;
   };
+
+  // useEffect to listen for changes in uploadComplete state
+  useEffect(() => {
+    if (uploadComplete) {
+      // Set a message indicating that data is extracted
+      setExtractionStatus(`Data is extracted!. Please check history`);
+    }
+  }, [uploadComplete]);
 
   // React component rendering
   return loading ? (
@@ -150,6 +154,10 @@ const Chunked = () => {
   ) : (
     <>
       <div>
+        <div className="chunked-header">
+          <Header />
+        </div>
+
         <div
           className="form"
           onClick={() => document.querySelector(".input-field").click()}
@@ -162,7 +170,12 @@ const Chunked = () => {
             onChange={handleFileChange}
           />
           {uploadedFile ? (
-            <img src={previewUrl} width={150} height={150} alt={uploadedFile.name} />
+            <img
+              src={previewUrl}
+              width={150}
+              height={150}
+              alt={uploadedFile.name}
+            />
           ) : (
             <>
               <MdCloudUpload color="#1475cf" size={60} />
@@ -182,6 +195,9 @@ const Chunked = () => {
             History
           </button>
         </div>
+        {extractionStatus && (
+          <div className="extraction-status">{extractionStatus}</div>
+        )}
       </div>
     </>
   );

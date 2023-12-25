@@ -120,12 +120,70 @@
     position: absolute;
     top: 0;
     left: 0;
-    padding-top:1rem;
-    padding-left: 2rem;
-    font-size: 1.5rem;
+    margin-top:1rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+    color:white;
     cursor:pointer;
+    background-color:#1475cf ;
+    padding:0.7rem;
+    border-radius: 5px;
 
   }
+  .back-button:hover{
+    background-color: #1440cf;
+  }
+
+  .select{
+    font-weight: bold; 
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top:1rem;
+    padding-right: 1rem;
+   
+  }
+  
+  .select>select{
+    padding:0.5rem;
+    font-size:1rem;
+    font-weight: bold;
+    cursor: pointer;
+    
+  }
+
+  select > option{
+    font-weight: bold;
+    
+  }
+
+  .filter-input-container{
+    font-weight: bold; 
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top:1rem;
+    padding-right: 1.5rem;
+  }
+
+  .filter-input,.filter-search-button,.filter-cancel-button{
+    padding:0.5rem;
+    font-size:1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+
+  }
+
+  .filter-search-button,.filter-cancel-button{
+    background-color: #1475cf;
+    color:white;
+    margin-left: 15px;
+  }
+  .filter-search-button:hover,.filter-cancel-button:hover{
+    background-color: #1440cf;
+  }
+
 
   
   /* Customize as needed */

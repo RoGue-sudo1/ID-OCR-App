@@ -23,3 +23,9 @@ Secondary Container (History.js)
   - Save button which will send the editted data to database.
   - Cancel button which will exit the edit mode.
 
+- History Component:
+  - At top left of the history page we have a select for filter it consists of all the field we can filter our card with.
+  - Now when we choose an option from the field it gives a input that will filter according to the choosen field and two options:
+                            - first is Search which will give us the filtered card
+                            - second is cancel which will take us to the normal state where all of our data is shown.
+
