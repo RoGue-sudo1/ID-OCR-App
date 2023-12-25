@@ -108,6 +108,7 @@ const Chunked = () => {
         }
       } catch (error) {
         console.error("Error uploading chunk:", error.message);
+
         setIsUploading(false);
         setLoading(false)
       }
@@ -201,7 +202,7 @@ const Chunked = () => {
           <div className="extraction-status">
             <p>User Data:</p>
             <pre>{JSON.stringify(userData.user, null, 2)}</pre>
-            <p>Message: {userData.message}. Check out history for more</p>
+            {userData.message ? (<p>Message: {userData.message}. Check out history for more</p>):(<p>This Id already exists. Please try again.</p>)}
           </div>
         )}
       </div>
