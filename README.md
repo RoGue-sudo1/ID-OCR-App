@@ -1,7 +1,9 @@
 **GitHub repo (backend)**: https://github.com/RoGue-sudo1/ID-OCR-App-Backend
+
+
 **Live Link**: https://thai-id-ocr.netlify.app/
 
-Thai ID OCR Frontend🚀🚀
+**Thai ID OCR Frontend🚀🚀**
 
 
 App Layout-{
