@@ -39,7 +39,7 @@ const HistoryCard = (currData, index) => {
 
   // Function to handle the save button click
   const handleSaveButtonClicked = async () => {
-    const data = await axios.put(process.env.REACT_APP_BACKEND_SERVER, {
+    const data = await axios.put(`${process.env.REACT_APP_BACKEND_SERVER}`, {
       ...currData.currData,
       identification_number: editedData.changedIdentificationNumber,
       name: editedData.changedFirstName,

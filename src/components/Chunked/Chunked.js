@@ -56,8 +56,8 @@ const Chunked = () => {
     const uploadChunk = async (start, end) => {
       const formData = new FormData();
       formData.append("file", uploadedFile.slice(start, end));
-      formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
-      formData.append("upload_preset", process.env.REACT_APP_UPLOAD_NAME);
+      formData.append("cloud_name", `${process.env.REACT_APP_CLOUD_NAME}`);
+      formData.append("upload_preset", `${process.env.REACT_APP_UPLOAD_NAME}`);
       const contentRange = `bytes ${start}-${end - 1}/${uploadedFile.size}`;
 
       console.log(
@@ -100,7 +100,7 @@ const Chunked = () => {
 
           // Send Cloudinary response to the local server using Axios
           setLoading(true);
-          const data = await axios.post(process.env.REACT_APP_BACKEND_SERVER, {
+          const data = await axios.post(`${process.env.REACT_APP_BACKEND_SERVER}` , {
             url: cloudinaryUrl,
           });
           setUserData(data.data);

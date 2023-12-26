@@ -17,9 +17,11 @@ function History() {
   // Fetch data from the server when the component mounts
   const getData = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_BACKEND_SERVER);
+      const url = `${process.env.REACT_APP_BACKEND_SERVER}`;
+      console.log("Request URL:", url);
+      const response = await axios.get(url);
       setDbData(response.data);
-      setFilteredDbData({ data: response.data.data }); // Initialize filtered data with the fetched data
+      setFilteredDbData({ data: response.data.data });
       console.log(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
