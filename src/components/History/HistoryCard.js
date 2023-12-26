@@ -21,37 +21,45 @@ const HistoryCard = (currData, index) => {
 
   // Function to handle the delete button click
   const handleDeleteButtonClicked = async (id) => {
-    const data = await axios.delete(
-      `${process.env.REACT_APP_BACKEND_SERVER}?id=${id}`
-    );
-    setIsDelete((prevState) => !prevState);
-    console.log(data.data.message);
+    try {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_SERVER}?id=${id}`);
+      // Handle successful deletion
+      console.log("Item deleted successfully");
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
+    }
   };
-
   // Function to handle the edit button click
   const handleEditButtonClicked = () => {
-    setIsEdit((prevState) => !prevState);
+    setIsEdit(true);
   };
 
   // Function to handle the cancel button click
   const handleCancelButtonClicked = () => {
-    setIsEdit((prevState) => !prevState);
+    setIsEdit(false);
   };
 
   // Function to handle the save button click
   const handleSaveButtonClicked = async () => {
-    const data = await axios.put(process.env.REACT_APP_BACKEND_SERVER, {
-      ...currData.currData,
-      identification_number: editedData.changedIdentificationNumber,
-      name: editedData.changedFirstName,
-      last_name: editedData.changedLastName,
-      date_of_birth: editedData.changedDateOfBirth,
-      date_of_expiry: editedData.changedDateOfExpiry,
-      date_of_issue: editedData.changedDateOfIssue,
-    });
-
-    setIsEdit((prevState) => !prevState);
+    try {
+      await axios.put(process.env.REACT_APP_BACKEND_SERVER, {
+        ...currData.currData,
+        identification_number: editedData.changedIdentificationNumber,
+        name: editedData.changedFirstName,
+        last_name: editedData.changedLastName,
+        date_of_birth: editedData.changedDateOfBirth,
+        date_of_expiry: editedData.changedDateOfExpiry,
+        date_of_issue: editedData.changedDateOfIssue,
+      });
+      // Handle successful update
+      setIsEdit(false);
+      console.log("Item updated successfully");
+    } catch (error) {
+      console.error("Error updating item:", error.message);
+    }
   };
+
+   
 
   return (
     // Render the card only if it is not deleted
