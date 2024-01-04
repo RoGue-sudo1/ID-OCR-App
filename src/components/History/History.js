@@ -18,7 +18,7 @@ function History() {
   const getData = async () => {
     try {
       const url = `${process.env.REACT_APP_BACKEND_SERVER}`;
-      console.log("Request URL:", url);
+    
       const response = await axios.get(url);
       setDbData(response.data);
       setFilteredDbData({ data: response.data.data });
