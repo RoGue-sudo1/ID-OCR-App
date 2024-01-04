@@ -35,17 +35,25 @@ function History() {
 
   // Event handler for changing the selected filter field
   const handleFilterButtonClicked = (e) => {
+   
     setFilterFieldValue(e.target.value);
+    
     setIsFilterInput(true);
+
   };
 
   // Event handler for clicking the search button
   const handleFilterFieldInputButtonClicked = () => {
     if (filteredDbData && filteredDbData.data) {
       // Filter data based on the selected filter field and input value
-      const tempFilteredData = filteredDbData.data.filter(
-        (item) => item[filterFieldValue]?.includes(inputValue)
-      );
+  
+      const tempFilteredData = filteredDbData.data.filter((item) => {
+        const fieldValue = item[filterFieldValue];
+  
+        
+        return fieldValue && fieldValue.toLowerCase().includes(inputValue.toLowerCase());
+      });
+  
       setFilteredDbData({ data: tempFilteredData });
     }
   };
@@ -103,7 +111,7 @@ function History() {
             value={filterFieldValue}
             onChange={handleFilterButtonClicked}
           >
-            <option value="">Filter field</option>
+            <option value="k">Filter field</option>
             <option value="id_no.">Id. no.</option>
             <option value="name">First name</option>
             <option value="last_name">Last name</option>
