@@ -8,15 +8,15 @@ import "./History.css";
 const HistoryCard = (currData, index) => {
   // State variables for edit mode, delete status, and edited data
   const [isEdit, setIsEdit] = useState(false),
-    [isDelete, setIsDelete] = useState(currData.currData.isActive),
+    [isDelete, setIsDelete] = useState(currData?.currData?.isActive),
     [editedData, setEditedData] = useState({
       changedIdentificationNumber:
         currData.currData.identification_number || "",
-      changedFirstName: currData.currData.name || "",
-      changedLastName: currData.currData.last_name || "",
-      changedDateOfBirth: currData.currData.date_of_birth || "",
-      changedDateOfExpiry: currData.currData.date_of_expiry || "",
-      changedDateOfIssue: currData.currData.date_of_issue || "",
+      changedFirstName: currData?.currData?.name || "",
+      changedLastName: currData?.currData?.last_name || "",
+      changedDateOfBirth: currData?.currData?.date_of_birth || "",
+      changedDateOfExpiry: currData?.currData?.date_of_expiry || "",
+      changedDateOfIssue: currData?.currData?.date_of_issue || "",
     });
 
   // Function to handle the delete button click
@@ -62,14 +62,14 @@ const HistoryCard = (currData, index) => {
             <div className="delete-button">
               <MdDelete
                 onClick={() => {
-                  handleDeleteButtonClicked(currData.currData._id);
+                  handleDeleteButtonClicked(currData?.currData?._id);
                 }}
               />
             </div>
             {/* Edit button */}
             <div className="edit-button">
               <MdEdit
-                onClick={() => handleEditButtonClicked(currData.currData._id)}
+                onClick={() => handleEditButtonClicked(currData?.currData?._id)}
               />
             </div>
           </div>
@@ -166,7 +166,7 @@ const HistoryCard = (currData, index) => {
                 {/* Save button */}
                 <button
                   className="save-button"
-                  onClick={() => handleSaveButtonClicked(currData.currData._id)}
+                  onClick={() => handleSaveButtonClicked(currData?.currData?._id)}
                 >
                   Save
                 </button>

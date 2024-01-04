@@ -44,7 +44,7 @@ function History() {
     if (filteredDbData && filteredDbData.data) {
       // Filter data based on the selected filter field and input value
       const tempFilteredData = filteredDbData.data.filter(
-        (item) => item[filterFieldValue] === inputValue
+        (item) => item[filterFieldValue]?.includes(inputValue)
       );
       setFilteredDbData({ data: tempFilteredData });
     }
